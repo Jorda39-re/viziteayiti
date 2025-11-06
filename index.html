@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Haiti’s Beauty</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            overflow-x: hidden;
+        }
+        header {
+            background: linear-gradient(to right, #00539C, #FFCC00);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 48px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        header p {
+            font-size: 24px;
+            font-style: italic;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .header-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.5;
+            filter: blur(2px);
+            z-index: 1;
+        }
+        nav {
+            background: #00539C;
+            padding: 10px 0;
+        }
+        nav .navbar-nav {
+            justify-content: center;
+        }
+        nav .nav-item {
+            margin: 0 5px; /* Espas pi piti ant tit yo */
+        }
+        nav .nav-link {
+            color: white;
+            padding: 10px 15px; /* Padding pi piti pou yo pa pran twòp espas */
+            font-size: 16px; /* Taille estanda pou zoli */
+        }
+        nav .nav-link:hover {
+            color: #FFCC00;
+        }
+        .lang-select {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .slider {
+            position: relative;
+            max-width: 100%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .slider img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: none;
+        }
+        .slider img.active {
+            display: block;
+        }
+        .slider-buttons {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .slider-buttons button {
+            background: #00539C;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .slider-buttons button:hover {
+            background: #FFCC00;
+            color: #00539C;
+        }
+        .subtitle {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+        .card-custom {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .card-custom img {
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .card-custom:hover {
+            transform: scale(1.05);
+        }
+        .video-card .card-body {
+            position: relative;
+        }
+        .video-overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+        .video-card:hover .video-overlay,
+        .video-card.playing .video-overlay {
+            opacity: 1;
+        }
+        .video-controls {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            z-index: 3;
+        }
+        .video-card:hover .video-controls {
+            display: block;
+        }
+        .contact-section {
+            background: linear-gradient(135deg, #00539C, #FFCC00);
+            padding: 60px 20px;
+            color: white;
+            text-align: center;
+        }
+        .contact-section h2 {
+            margin-bottom: 30px;
+            font-size: 36px;
+        }
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .contact-form .form-control {
+            border-radius: 10px;
+            border: none;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+        }
+        .contact-form .btn-primary {
+            background: #00539C;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            transition: background 0.3s ease;
+        }
+        .contact-form .btn-primary:hover {
+            background: #FFCC00;
+            color: #00539C;
+        }
+        #formMessage {
+            margin-top: 15px;
+        }
+        footer {
+            background: #00539C;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://haitiwonderland.com/assets/images/upload/blog/haiti-1-citadelle-laferriere-1717214007.jpg" alt="Header Image" class="header-image">
+        <h1>Explore Haiti’s Beauty</h1>
+        <p>Haiti is a beautiful country despite the socioeconomic challenges it faces.</p>
+    </header>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="#images">Images</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#videos">Videos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="lang-select">
+        <select id="langSelect" class="form-select w-25 mx-auto">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+        </select>
+    </div>
+
+    <section id="slider" class="py-5">
+        <div class="container">
+            <div class="slider">
+                <img src="https://haitiwonderland.com/assets/images/upload/blog/haiti-1-citadelle-laferriere-1717214007.jpg" alt="Citadelle Laferrière">
+                <img src="https://haitiwonderland.com/assets/images/upload/blog/haiti-2-palais-sans-souci-1717214066.jpg" alt="Palais Sans-Souci">
+                <img src="https://haitiwonderland.com/assets/images/upload/blog/haiti-3-bassin-bleu-1717214133.jpg" alt="Bassin Bleu">
+                <img src="https://haitiwonderland.com/assets/images/upload/blog/haiti-4-grotte-marie-jeanne-1717214220.jpg" alt="Grotte Marie-Jeanne">
+                <img src="https://haitiwonderland.com/assets/images/upload/blog/haiti-5-jardin-botanique-des-cayes-1717213711.jpg" alt="Jardin Botanique Des Cayes">
+                <img src="https://haitiwonderland.com/assets/images/upload/blog/haiti-7-labadee-1717213873.webp" alt="Labadee">
+            </div>
+            <div class="slider-buttons">
+                <button id="prevBtn">Previous</button>
+                <button id="nextBtn">Next</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="images" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4" style="color: #00539C;">Beautiful Places in Images</h2>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <div class="col">
+                    <div class="card card-custom">
+                        <img src="https://haitiwonderland.com/assets/images/upload/blog/haiti-1-citadelle-laferriere-1717214007.jpg" alt="Citadelle Laferrière">
+                        <div class="card-body">
+                            <h3 class="card-title" style="color: #FFCC00;">Citadelle Laferrière</h3>
+                            <p class="card-text">Located in northern Haiti, it is one of the most important symbols of Haitian freedom and resilience, a UNESCO World Heritage Site.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-custom">
+                        <img src="https://haitiwonderland.com/assets/images/upload/blog/haiti-2-palais-sans-souci-1717214066.jpg" alt="Palais Sans-Souci">
+                        <div class="card-body">
+                            <h3 class="card-title" style="color: #FFCC00;">Palais Sans-Souci</h3>
+                            <p class="card-text">Located near Milot in northern Haiti, built between 1810 and 1813 under King Henri Christophe.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-custom">
+                        <img src="https://haitiwonderland.com/assets/images/upload/blog/haiti-3-bassin-bleu-1717214133.jpg" alt="Bassin Bleu">
+                        <div class="card-body">
+                            <h3 class="card-title" style="color: #FFCC00;">Bassin Bleu</h3>
+                            <p class="card-text">Near Jacmel in southeastern Haiti, consists of three natural basins fed by waterfalls.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-custom">
+                        <img src="https://haitiwonderland.com/assets/images/upload/blog/haiti-4-grotte-marie-jeanne-1717214220.jpg" alt="Grotte Marie-Jeanne">
+                        <div class="card-body">
+                            <h3 class="card-title" style="color: #FFCC00;">Grotte Marie-Jeanne</h3>
+                            <p class="card-text">Located near Port-à-Piment, one of Haiti’s largest caves with underground passages and rock formations.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-custom">
+                        <img src="https://haitiwonderland.com/assets/images/upload/blog/haiti-5-jardin-botanique-des-cayes-1717213711.jpg" alt="Jardin Botanique Des Cayes">
+                        <div class="card-body">
+                            <h3 class="card-title" style="color: #FFCC00;">Jardin Botanique Des Cayes</h3>
+                            <p class="card-text">Near Les Cayes, promotes biodiversity conservation and environmental education.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-custom">
+                        <img src="https://haitiwonderland.com/assets/images/upload/blog/haiti-7-labadee-1717213873.webp" alt="Labadee">
+                        <div class="card-body">
+                            <h3 class="card-title" style="color: #FFCC00;">Labadee</h3>
+                            <p class="card-text">A private beach destination on Haiti’s northern coast, offering beaches and sea excursions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="videos" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4" style="color: #00539C;">Beautiful Places in Videos</h2>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <div class="col">
+                    <div class="card card-custom video-card">
+                        <div class="card-body">
+                            <div class="video-overlay" id="overlay1">Citadelle Laferrière</div>
+                            <iframe id="video1" src="https://www.youtube.com/embed/frmPjxK3Pcg?enablejsapi=1" allowfullscreen class="w-100" style="aspect-ratio: 16/9;"></iframe>
+                            <div class="video-controls">
+                                <button id="play1">Play</button>
+                                <button id="pause1">Pause</button>
+                            </div>
+                            <div class="subtitle">Citadelle Laferrière is a historic monument symbolizing Haiti’s freedom. / La Citadelle Laferrière es un monumento histórico que simboliza la libertad de Haití.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-custom video-card">
+                        <div class="card-body">
+                            <div class="video-overlay" id="overlay2">Palais Sans-Souci</div>
+                            <iframe id="video2" src="https://www.youtube.com/embed/y5IVEn6Pa6s?enablejsapi=1" allowfullscreen class="w-100" style="aspect-ratio: 16/9;"></iframe>
+                            <div class="video-controls">
+                                <button id="play2">Play</button>
+                                <button id="pause2">Pause</button>
+                            </div>
+                            <div class="subtitle">Palais Sans-Souci is a historic palace built by King Henri Christophe. / El Palais Sans-Souci es un palacio histórico construido por el rey Henri Christophe.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-custom video-card">
+                        <div class="card-body">
+                            <div class="video-overlay" id="overlay3">Bassin Bleu</div>
+                            <iframe id="video3" src="https://www.youtube.com/embed/HcjecKZzoZc?enablejsapi=1" allowfullscreen class="w-100" style="aspect-ratio: 16/9;"></iframe>
+                            <div class="video-controls">
+                                <button id="play3">Play</button>
+                                <button id="pause3">Pause</button>
+                            </div>
+                            <div class="subtitle">Bassin Bleu is a natural waterfall near Jacmel. / Bassin Bleu es una cascada natural cerca de Jacmel.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-custom video-card">
+                        <div class="card-body">
+                            <div class="video-overlay" id="overlay4">Grotte Marie-Jeanne</div>
+                            <iframe id="video4" src="https://www.youtube.com/embed/WVsy2CudByg?enablejsapi=1" allowfullscreen class="w-100" style="aspect-ratio: 16/9;"></iframe>
+                            <div class="video-controls">
+                                <button id="play4">Play</button>
+                                <button id="pause4">Pause</button>
+                            </div>
+                            <div class="subtitle">Grotte Marie-Jeanne is a large cave with underground passages. / La Grotte Marie-Jeanne es una cueva grande con pasajes subterráneos.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-custom video-card">
+                        <div class="card-body">
+                            <div class="video-overlay" id="overlay5">Jacmel</div>
+                            <iframe id="video5" src="https://www.youtube.com/embed/0YIxlQJHaVU?enablejsapi=1" allowfullscreen class="w-100" style="aspect-ratio: 16/9;"></iframe>
+                            <div class="video-controls">
+                                <button id="play5">Play</button>
+                                <button id="pause5">Pause</button>
+                            </div>
+                            <div class="subtitle">Jacmel is a city where art and culture shine. / Jacmel es una ciudad donde el arte y la cultura brillan.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-custom video-card">
+                        <div class="card-body">
+                            <div class="video-overlay" id="overlay6">Labadee</div>
+                            <iframe id="video6" src="https://www.youtube.com/embed/IDufV8gx9Cs?enablejsapi=1" allowfullscreen class="w-100" style="aspect-ratio: 16/9;"></iframe>
+                            <div class="video-controls">
+                                <button id="play6">Play</button>
+                                <button id="pause6">Pause</button>
+                            </div>
+                            <div class="subtitle">Labadee is a private beach with sea experiences. / Labadee es una playa privada con experiencias marinas.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section py-5">
+        <div class="container">
+            <h2>Contact Me</h2>
+            <p>If you’d like to support this work, make a donation via one of these options:</p>
+            <ul class="list-unstyled">
+                <li><strong>Banco Azteca:</strong> Number: 4027665297866738, Jordany Elusma</li>
+                <li><strong>WhatsApp:</strong> +525661926123</li>
+                <li><strong>Email:</strong> jordanyelusma89@gmail.com</li>
+            </ul>
+            <p>Or leave me a message:</p>
+            <form action="https://formspree.io/f/meozvzpj" method="POST" class="contact-form" id="contactForm">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="mb-3">
+                    <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                </div>
+                <div class="mb-3">
+                    <textarea class="form-control" name="message" rows="4" placeholder="Your Message" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+            <p id="formMessage" class="mt-3 text-success" style="display: none;">Thank you! Your message was sent successfully.</p>
+        </div>
+    </section>
+
+    <footer class="py-3">
+        <div class="container">
+            <p>&copy; 2025 Explore Haiti’s Beauty. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Language selector
+        const langSelect = document.getElementById('langSelect');
+        const elements = document.querySelectorAll('[data-translate]');
+
+        langSelect.addEventListener('change', function() {
+            const lang = this.value;
+            elements.forEach(element => {
+                const translations = element.dataset.translate.split('|');
+                if (lang === 'en') element.textContent = translations[0];
+                else if (lang === 'es') element.textContent = translations[1];
+            });
+        });
+
+        // Slider functionality
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slider img');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) slide.classList.add('active');
+            });
+        }
+
+        prevBtn.addEventListener('click', () => {
+            slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+            showSlide(slideIndex);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            slideIndex = (slideIndex + 1) % slides.length;
+            showSlide(slideIndex);
+        });
+
+        setInterval(() => {
+            slideIndex = (slideIndex + 1) % slides.length;
+            showSlide(slideIndex);
+        }, 5000); // Auto-slide every 5 seconds
+
+        // Video controls and overlay
+        const videos = [
+            { id: 'video1', play: 'play1', pause: 'pause1', overlay: 'overlay1' },
+            { id: 'video2', play: 'play2', pause: 'pause2', overlay: 'overlay2' },
+            { id: 'video3', play: 'play3', pause: 'pause3', overlay: 'overlay3' },
+            { id: 'video4', play: 'play4', pause: 'pause4', overlay: 'overlay4' },
+            { id: 'video5', play: 'play5', pause: 'pause5', overlay: 'overlay5' },
+            { id: 'video6', play: 'play6', pause: 'pause6', overlay: 'overlay6' }
+        ];
+
+        videos.forEach(video => {
+            const player = new YT.Player(video.id, {
+                events: {
+                    'onReady': (event) => {
+                        document.getElementById(video.play).addEventListener('click', () => {
+                            event.target.playVideo();
+                            document.querySelector(`#${video.id}`).closest('.video-card').classList.add('playing');
+                        });
+                        document.getElementById(video.pause).addEventListener('click', () => {
+                            event.target.pauseVideo();
+                            document.querySelector(`#${video.id}`).closest('.video-card').classList.remove('playing');
+                        });
+                    },
+                    'onStateChange': (event) => {
+                        if (event.data === YT.PlayerState.PLAYING) {
+                            document.querySelector(`#${video.id}`).closest('.video-card').classList.add('playing');
+                        } else {
+                            document.querySelector(`#${video.id}`).closest('.video-card').classList.remove('playing');
+                        }
+                    }
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const form = this;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    document.getElementById('formMessage').style.display = 'block';
+                    form.reset();
+                    setTimeout(() => {
+                        document.getElementById('formMessage').style.display = 'none';
+                    }, 5000);
+                } else {
+                    alert('There was an error. Please try again.');
+                }
+            }).catch(error => {
+                alert('There was an error: ' + error.message);
+            });
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>
